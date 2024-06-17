@@ -1,38 +1,57 @@
 public class Livro {
+    static String getContador;
     private int id;
     private String titulo;
     private String autor;
     private int anoPublicacao;
+    private static int contador = 0;
+    
+    public Livro(String titulo){
+        this.setTitulo(titulo);
+        contador ++;
+        this.setId(contador);
+    }
+    public void setId(int contador){
+        this.id = contador;
+    }
 
-    public Livro(int id, String titulo, String autor, int anoPublicacao) {
-        this.id = id;
+    private void setTitulo(String titulo){
+        titulo = titulo.toUpperCase();
         this.titulo = titulo;
-        this.autor = autor;
-        this.anoPublicacao = anoPublicacao;
     }
 
-    public int getId() {
-        return id;
+    public int getContador(){
+        return  this.contador;
+    }
+    
+
+    public String getTitulo(){
+        return this.titulo;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public int getId(){
+        return this.id;
     }
 
     public String getAutor() {
         return autor;
     }
 
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
     public int getAnoPublicacao() {
         return anoPublicacao;
     }
 
-    public String toString() {
-        return "Livro{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", autor='" + autor + '\'' +
-                ", anoPublicacao=" + anoPublicacao +
-                '}';
-    }
+    public void setAnoPublicacao(int anoPublicacao) {
+        this.anoPublicacao = anoPublicacao;
+    }
+
+    //criar toString 
+    public String toString(){
+        return "ID: " + getId() + " Titulo: " + getTitulo() + " Autor: " + getAutor() + " Ano de publicação: " + getAnoPublicacao();
+    }
+    
 }
