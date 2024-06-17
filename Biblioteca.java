@@ -1,72 +1,89 @@
+
 import java.util.LinkedList;
-import java.util.ListIterator;
+import javax.sound.sampled.SourceDataLine;
+import javax.swing.text.html.FormView;
+import java.util.Scanner;
+
 
 public class Biblioteca {
-    private LinkedList<Livro> livros;
-    private LinkedList<Usuario> usuarios;
+    private LinkedList<Livro> dados;
+    private LinkedList<Usuario> dadosUsuarios;
+    static Scanner input = new Scanner(System.in);
 
-    public Biblioteca() {
-        this.livros = new LinkedList<>();
-        this.usuarios = new LinkedList<>();
+    public Biblioteca(){
+        dados = new LinkedList<Livro>();
+        dadosUsuarios = new LinkedList<Usuario>();
     }
 
-    // Métodos para livros
-    public void inserirLivro(Livro livro) {
-        livros.add(livro);
+    public void inserir(Livro livro){
+        if (dados.contains(livro)){
+            System.out.println("Livro já inserido");
+        }else{
+            dados.add(livro);
+            System.out.println("Livro cadastrado com sucesso!");
+        }
     }
 
-    public Livro buscarLivro(int id) {
-        for (Livro livro : livros) {
-            if (livro.getId() == id) {
+    public void listarTodos(){
+        for (int i = 0; i < dados.size(); i++) {
+           System.out.println(dados.get(i));
+        }    
+    }
+
+    public Livro consultaID(int id){
+        for (Livro livro : dados) {
+            if (livro.getId() == id){
+                System.out.println("Livro encontrado");
+                System.out.println(livro);
                 return livro;
             }
         }
+        System.out.println(id + " não está cadastrado");
         return null;
     }
 
-    public boolean removerLivro(int id) {
-        ListIterator<Livro> iterator = livros.listIterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().getId() == id) {
-                iterator.remove();
-                return true;
+    public void remover(int id){
+        for (Livro livro : dados) {
+            if (livro.getId() == id){
+                System.out.println("Livro removido com sucesso");
+                dados.remove(livro);
             }
         }
-        return false;
     }
 
-    public LinkedList<Livro> listarLivros() {
-        livros.sort((l1, l2) -> Integer.compare(l1.getId(), l2.getId()));
-        return livros;
+
+    public void inserirUsuario(Usuario usuario){
+        if (dadosUsuarios.contains(usuario)){
+            System.out.println("Usuário já inserido");
+        }else{
+            dadosUsuarios.add(usuario);
+        }
     }
 
-    // Métodos para usuários
-    public void inserirUsuario(Usuario usuario) {
-        usuarios.add(usuario);
+    public void listarTodosUsuarios(){
+        for (int i = 0; i < dadosUsuarios.size(); i++) {
+           System.out.println(dadosUsuarios.get(i));
+        }    
     }
 
-    public Usuario buscarUsuario(int id) {
-        for (Usuario usuario : usuarios) {
-            if (usuario.getId() == id) {
+    public Usuario consultaIDUsuario(int id_usuario){
+        for (Usuario usuario : dadosUsuarios) {
+            if (usuario.getId_Usuario() == id_usuario){
+                System.out.println("Usuário encontrado");
+                System.out.println(usuario);
                 return usuario;
             }
         }
+        System.out.println(id_usuario + " não está cadastrado");
         return null;
     }
 
-    public boolean removerUsuario(int id) {
-        ListIterator<Usuario> iterator = usuarios.listIterator();
-        while (iterator.hasNext()) {
-            if (iterator.next().getId() == id) {
-                iterator.remove();
-                return true;
+    public void removerUsuario(int id_usuario){
+        for (Usuario usuario : dadosUsuarios) {
+            if (usuario.getId_Usuario() == id_usuario){
+                System.out.println("Usuário removido com sucesso");
+                dadosUsuarios.remove(usuario);
             }
         }
-        return false;
     }
-
-    public LinkedList<Usuario> listarUsuarios() {
-        usuarios.sort((u1, u2) -> Integer.compare(u1.getId(), u2.getId()));
-        return usuarios;
-    }
 }
