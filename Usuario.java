@@ -1,29 +1,48 @@
 public class Usuario {
-    private int id;
+    static String getContadorUsuario;
+    private int idUsuario;
     private String nome;
     private String email;
+    private static int contadorUsuario = 0;
+    
+    public Usuario(String nome){
+        this.setUsuario(nome);
+        contadorUsuario ++;
+        this.setId_Usuario(contadorUsuario);
+    }
+    public void setId_Usuario(int idUsuario){
+        this.idUsuario = idUsuario;
+    }
 
-    public Usuario(int id, String nome, String email) {
-        this.id = id;
+    private void setUsuario(String nome){
+        nome = nome.toUpperCase();
         this.nome = nome;
+    }
+
+    public int getContador_Usuario(){
+        return  this.contadorUsuario;
+    }
+    
+
+    public String getUsuario(){
+        return this.nome;
+    }
+
+    public int getId_Usuario(){
+        System.out.println(idUsuario);
+        return this.idUsuario;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public int getId() {
-        return id;
+    public String getEmail(){
+        return this.email;
     }
 
-    public String getNome() {
-        return nome;
+    //criar toString 
+    public String toString(){
+        return "ID: " + getId_Usuario() + " Nome: " + getUsuario() + " Email: " + getEmail();
     }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String toString() {
-        return "Usuario{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' + ", email='" + email + '\'}';
-    }
 }
