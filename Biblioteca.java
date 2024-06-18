@@ -1,89 +1,45 @@
-
-import java.util.LinkedList;
-import javax.sound.sampled.SourceDataLine;
-import javax.swing.text.html.FormView;
-import java.util.Scanner;
-
+import java.sql.Connection;
 
 public class Biblioteca {
-    private LinkedList<Livro> dados;
-    private LinkedList<Usuario> dadosUsuarios;
-    static Scanner input = new Scanner(System.in);
+    private LivroDAO livroDAO;
+    private UsuarioDAO usuarioDAO;
 
-    public Biblioteca(){
-        dados = new LinkedList<Livro>();
-        dadosUsuarios = new LinkedList<Usuario>();
+    public Biblioteca(Connection conexao) {
+        this.livroDAO = new LivroDAO(conexao);
+        this.usuarioDAO = new UsuarioDAO(conexao);
     }
 
-    public void inserir(Livro livro){
-        if (dados.contains(livro)){
-            System.out.println("Livro já inserido");
-        }else{
-            dados.add(livro);
-            System.out.println("Livro cadastrado com sucesso!");
-        }
+    // Métodos para gerenciar livros
+    public void inserir(Livro livro) {
+        livroDAO.inserir(livro);
     }
 
-    public void listarTodos(){
-        for (int i = 0; i < dados.size(); i++) {
-           System.out.println(dados.get(i));
-        }    
+    public void listarTodos() {
+        livroDAO.listarTodos();
     }
 
-    public Livro consultaID(int id){
-        for (Livro livro : dados) {
-            if (livro.getId() == id){
-                System.out.println("Livro encontrado");
-                System.out.println(livro);
-                return livro;
-            }
-        }
-        System.out.println(id + " não está cadastrado");
-        return null;
+    public Livro consultaID(int id) {
+        return livroDAO.consultaID(id);
     }
 
-    public void remover(int id){
-        for (Livro livro : dados) {
-            if (livro.getId() == id){
-                System.out.println("Livro removido com sucesso");
-                dados.remove(livro);
-            }
-        }
+    public void remover(int id) {
+        livroDAO.remover(id);
     }
 
-
-    public void inserirUsuario(Usuario usuario){
-        if (dadosUsuarios.contains(usuario)){
-            System.out.println("Usuário já inserido");
-        }else{
-            dadosUsuarios.add(usuario);
-        }
+    // Métodos para gerenciar usuários
+    public void inserirUsuario(Usuario usuario) {
+        usuarioDAO.inserir(usuario);
     }
 
-    public void listarTodosUsuarios(){
-        for (int i = 0; i < dadosUsuarios.size(); i++) {
-           System.out.println(dadosUsuarios.get(i));
-        }    
+    public void listarTodosUsuarios() {
+        usuarioDAO.listarTodos();
     }
 
-    public Usuario consultaIDUsuario(int id_usuario){
-        for (Usuario usuario : dadosUsuarios) {
-            if (usuario.getId_Usuario() == id_usuario){
-                System.out.println("Usuário encontrado");
-                System.out.println(usuario);
-                return usuario;
-            }
-        }
-        System.out.println(id_usuario + " não está cadastrado");
-        return null;
+    public Usuario consultaIDUsuario(int id) {
+        return usuarioDAO.consultaID(id);
     }
 
-    public void removerUsuario(int id_usuario){
-        for (Usuario usuario : dadosUsuarios) {
-            if (usuario.getId_Usuario() == id_usuario){
-                System.out.println("Usuário removido com sucesso");
-                dadosUsuarios.remove(usuario);
-            }
-        }
+    public void removerUsuario(int id) {
+        usuarioDAO.remover(id);
     }
 }
