@@ -1,48 +1,45 @@
 public class Usuario {
-    static String getContadorUsuario;
-    private int idUsuario;
+    private int id;
     private String nome;
     private String email;
-    private static int contadorUsuario = 0;
-    
-    public Usuario(String nome){
-        this.setUsuario(nome);
-        contadorUsuario ++;
-        this.setId_Usuario(contadorUsuario);
-    }
-    public void setId_Usuario(int idUsuario){
-        this.idUsuario = idUsuario;
-    }
 
-    private void setUsuario(String nome){
-        nome = nome.toUpperCase();
+    public Usuario(int id, String nome, String email) {
+        this.id = id;
         this.nome = nome;
-    }
-
-    public int getContador_Usuario(){
-        return  this.contadorUsuario;
-    }
-    
-
-    public String getUsuario(){
-        return this.nome;
-    }
-
-    public int getId_Usuario(){
-        System.out.println(idUsuario);
-        return this.idUsuario;
-    }
-
-    public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getEmail(){
-        return this.email;
+    public int getId() {
+        return id;
     }
 
-    //criar toString 
-    public String toString(){
-        return "ID: " + getId_Usuario() + " Nome: " + getUsuario() + " Email: " + getEmail();
+    public String getNome() {
+        return nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Usuario usuario = (Usuario) obj;
+        return id == usuario.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(id);
     }
 }
