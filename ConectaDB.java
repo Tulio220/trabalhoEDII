@@ -1,30 +1,27 @@
-
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class ConectaDB {
-    //conexao com BD
-    //atributo
+    // Conexão com BD
     private Connection conexao;
 
-    //construtor
-    //conecta no Banco de Dados
-    public ConectaDB(){
-        String url = "jdbc:mariadb://localhost:3306/ed2";
+    // Construtor que conecta ao Banco de Dados
+    public ConectaDB() {
+        String url = "jdbc:mariadb://localhost:3306/ED II";
         String user = "root";
-        String pwd = "98245803";
+        String pwd = "root";
 
         try {
             conexao = DriverManager.getConnection(url, user, pwd);
             System.out.println("Conexão Realizada");
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Nao encontrado drive");
+        } catch (SQLException e) {
+            System.out.println("Erro ao conectar ao banco de dados: " + e.getMessage());
         }
     }
 
-    //metodo para retornar a conexao com o BD
-    public Connection getConexaoDB(){
+    // Método para retornar a conexão com o BD
+    public Connection getConexaoDB() {
         return conexao;
     }
 }
