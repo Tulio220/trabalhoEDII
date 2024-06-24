@@ -23,23 +23,6 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Usuario usuario = (Usuario) obj;
-        return id == usuario.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Integer.hashCode(id);
+        return "Usuario [ID=" + id + ", Nome=" + nome + ", Email=" + email + "]";
     }
 }
