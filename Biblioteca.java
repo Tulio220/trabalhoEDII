@@ -1,45 +1,71 @@
-import java.sql.Connection;
+import java.util.LinkedList;
 
 public class Biblioteca {
-    private LivroDAO livroDAO;
-    private UsuarioDAO usuarioDAO;
+    private LinkedList<Livro> livros;
+    private LinkedList<Usuario> usuarios;
 
-    public Biblioteca(Connection conexao) {
-        this.livroDAO = new LivroDAO(conexao);
-        this.usuarioDAO = new UsuarioDAO(conexao);
+    public Biblioteca() {
+        livros = new LinkedList<>();
+        usuarios = new LinkedList<>();
     }
 
     // Métodos para gerenciar livros
-    public void inserir(Livro livro) {
-        livroDAO.inserir(livro);
+    public void adicionarLivro(Livro livro) {
+        livros.add(livro);
+        livros.sort((Livro l1, Livro l2) -> l1.getId() - l2.getId());
     }
 
-    public void listarTodos() {
-        livroDAO.listarTodos();
+    public Livro buscarLivro(int id) {
+        for (Livro livro : livros) {
+            if (livro.getId() == id) {
+                return livro;
+            }
+        }
+        return null;
     }
 
-    public Livro consultaID(int id) {
-        return livroDAO.consultaID(id);
+    public boolean removerLivro(int id) {
+        Livro livro = buscarLivro(id);
+        if (livro != null) {
+            livros.remove(livro);
+            return true;
+        }
+        return false;
     }
 
-    public void remover(int id) {
-        livroDAO.remover(id);
+    public void listarLivros() {
+        for (Livro livro : livros) {
+            System.out.println(livro);
+        }
     }
 
     // Métodos para gerenciar usuários
-    public void inserirUsuario(Usuario usuario) {
-        usuarioDAO.inserir(usuario);
+    public void adicionarUsuario(Usuario usuario) {
+        usuarios.add(usuario);
+        usuarios.sort((Usuario u1, Usuario u2) -> u1.getId() - u2.getId());
     }
 
-    public void listarTodosUsuarios() {
-        usuarioDAO.listarTodos();
+    public Usuario buscarUsuario(int id) {
+        for (Usuario usuario : usuarios) {
+            if (usuario.getId() == id) {
+                return usuario;
+            }
+        }
+        return null;
     }
 
-    public Usuario consultaIDUsuario(int id) {
-        return usuarioDAO.consultaID(id);
+    public boolean removerUsuario(int id) {
+        Usuario usuario = buscarUsuario(id);
+        if (usuario != null) {
+            usuarios.remove(usuario);
+            return true;
+        }
+        return false;
     }
 
-    public void removerUsuario(int id) {
-        usuarioDAO.remover(id);
+    public void listarUsuarios() {
+        for (Usuario usuario : usuarios) {
+            System.out.println(usuario);
+        }
     }
 }
