@@ -1,79 +1,110 @@
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.LinkedList;
-import java.util.List;
+public class UsuarioDao{
+    private ConectaDB conexao;
 
-public class UsuarioDAO {
-    private Connection conexao;
-
-    public UsuarioDAO(Connection conexao) {
-        this.conexao = conexao;
+    public UsuarioDao(){
+        conexao = new ConectaDB();
     }
 
-    public void inserir(Usuario usuario) {
-        String sql = "INSERT INTO usuarios (id, nome, email) VALUES (?, ?, ?)";
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setInt(1, usuario.getId());
-            stmt.setString(2, usuario.getNome());
-            stmt.setString(3, usuario.getEmail());
-            stmt.executeUpdate();
-            System.out.println("Usuário cadastrado com sucesso!");
-        } catch (SQLException e) {
-            System.out.println("Erro ao inserir usuário: " + e.getMessage());
+    public void inserirUsuario(Usuario usuario){
+        ConectaDB conexao = new ConectaDB();
+        String sql = "INSERT INTO usuario (nome, email) values (?, ?)";
+        try {
+            PreparedStatement pst = conexao.getConexaoDB().prepareStatement(sql);
+            pst.setString(1, usuario.getUsuario());
+            pst.setString(2, usuario.getEmail());
+            pst.execute();
+            System.out.println("Inserção ok: "+ usuario);
+        } catch (Exception e) {
+            System.out.println("Falha na inserção: "+ e.getMessage());
         }
     }
 
-    public void listarTodos() {
-        String sql = "SELECT * FROM usuarios ORDER BY id";
-        try (Statement stmt = conexao.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                Usuario usuario = new Usuario(
-                        rs.getInt("id"),
-                        rs.getString("nome"),
-                        rs.getString("email")
-                );
-                System.out.println(usuario);
+
+    public LinkedList<Usuario> consultarTodosUsuarios(){
+        String sql = "SELECT * FROM usuario";
+        LinkedList<Usuario> lista = new LinkedList<Usuario>();
+        try {
+            PreparedStatement pst = conexao.getConexaoDB().prepareStatement(sql);
+            ResultSet resultados = pst.executeQuery();
+            while (resultados.next()){
+                String nome = resultados.getString("nome");
+                String email = resultados.getString("email");
+                int id = resultados.getInt("id_usuario");
+                Usuario obj = new Usuario(nome);
+                obj.setEmail(email);
+                obj.setId_Usuario(id);
+                lista.add(obj);
             }
-        } catch (SQLException e) {
-            System.out.println("Erro ao listar usuários: " + e.getMessage());
+            return lista;
+        } catch (Exception e) {
+            System.out.println("Falha na consulta usuario: "+ e.getMessage());
         }
-    }
-
-    public Usuario consultaID(int id) {
-        String sql = "SELECT * FROM usuarios WHERE id = ?";
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    Usuario usuario = new Usuario(
-                            rs.getInt("id"),
-                            rs.getString("nome"),
-                            rs.getString("email")
-                    );
-                    System.out.println("Usuário encontrado");
-                    System.out.println(usuario);
-                    return usuario;
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Erro ao consultar usuário: " + e.getMessage());
-        }
-        System.out.println(id + " não está cadastrado");
         return null;
     }
 
-    public void remover(int id) {
-        String sql = "DELETE FROM usuarios WHERE id = ?";
-        try (PreparedStatement stmt = conexao.prepareStatement(sql)) {
-            stmt.setInt(1, id);
-            int rowsAffected = stmt.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Usuário removido com sucesso");
-            } else {
-                System.out.println("Usuário com id " + id + " não encontrado");
+    public Usuario consultarUsuario (int id){
+       
+        String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
+        Usuario lista = null;
+        try {
+            PreparedStatement pst = conexao.getConexaoDB().prepareStatement(sql);
+            //executar consulta
+            pst.setInt(1, id);
+            ResultSet resultados = pst.executeQuery();
+            if (resultados.next()){ 
+                String nome = resultados.getString("nome");
+                String email = resultados.getString("email");
+                
+
+                Usuario usuario = new Usuario(nome);
+                
+                usuario.setEmail(email);
+                usuario.setId_Usuario(id);
+                return usuario;
+            }else{
+                System.out.println("Não possui registro com o ID "+ id);
             }
-        } catch (SQLException e) {
-            System.out.println("Erro ao remover usuário: " + e.getMessage());
+
+        } catch (Exception e) {
+            System.out.println("Falha na consulta: "+ e.getMessage());
+        }
+        return null;
+    }
+
+    public void excluirUsuario(int id){
+        Usuario us = consultarUsuario(id);
+        String sql = "DELETE FROM usuario WHERE id_usuario = ?";  
+        
+        try {
+            if (us.getId_Usuario() == id){
+                PreparedStatement pst = conexao.getConexaoDB().prepareStatement(sql);
+                pst.setInt(1, id);
+                
+                System.out.println("Usuario excluido com sucesso");
+                pst.execute();
+            }else{
+                System.out.println(id + " não está cadastrado");
+            }
+        } catch (Exception e) {
+            System.out.println("Falha na consulta usuario: "+ e.getMessage());
+        }
+    }
+
+    public void alterarUsuario(Usuario usuario, int id){
+        String sql = "UPDATE usuario SET nome = ?, email = ?WHERE id_usuario = ?";
+        try{
+            PreparedStatement pst = conexao.getConexaoDB().prepareStatement(sql);
+            pst.setString(1, usuario.getUsuario());
+            pst.setString(2, usuario.getEmail());
+            pst.setInt(3, id);
+            pst.execute();
+
+            System.out.println("Usuario atualizado com sucesso.");
+        } catch (Exception e) {
+            System.out.println("Falha na consulta do usuario: "+ e.getMessage());
         }
     }
 }
