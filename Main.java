@@ -1,4 +1,9 @@
+
+
 import java.util.Scanner;
+
+//import java.util.Scanner;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -9,7 +14,7 @@ public class Main {
         while (true) { 
             System.out.println("-----MENU-----");
             System.out.println("1- Cadastro de livros:");
-            System.out.println("2- Cadastro de usuários:");
+            System.out.println("2-Cadastro de usuários:");
             System.out.println("0- Sair:");
             System.out.println("Escolha uma opção: ");
             int opcao = scanner.nextInt();
@@ -53,7 +58,7 @@ public class Main {
                     System.out.println("Retornando...");
                 
                 }else{
-                    System.out.println("Opção inválida. Tente novamente.");
+                    System.out.println("Opcao inválida. Tente novamente.");
                 }
             }else if (opcao == 2){
                 System.out.println("-----MENU-----");
@@ -91,15 +96,15 @@ public class Main {
                     System.out.println("Retornando...");
                     
                 }else{
-                    System.out.println("Opção inválida. Tente novamente.");
+                    System.out.println("Opcao inválida. Tente novamente.");
                 }
             }else if  (opcao== 0){
                 System.out.println("Saindo...");
                 scanner.close();
                 return;
             }else{
-                System.out.println("Opção inválida, tente novamente.");
-            }
+                System.out.println("Opçcão inválida, tente novamente.");
+                }
         }
     }
 }
