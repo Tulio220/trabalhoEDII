@@ -3,23 +3,31 @@ public class Livro {
     private String titulo;
     private String autor;
     private int anoPublicacao;
-    private static int contador = 0;
+    
+    public Livro(String titulo){
+        this.setTitulo(titulo);
+        this.setId(id);
+    }
+    public void setId(int id){
+        this.id = id;
+    }
 
-    public Livro(String titulo) {
-        this.id = ++contador;
+    private void setTitulo(String titulo){
+        titulo = titulo.toUpperCase();
         this.titulo = titulo;
     }
 
-    public int getId() {
-        return id;
+    public int getContador(){
+        return  this.id;
+    }
+    
+
+    public String getTitulo(){
+        return this.titulo;
     }
 
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public int getId(){
+        return this.id;
     }
 
     public String getAutor() {
@@ -38,26 +46,8 @@ public class Livro {
         this.anoPublicacao = anoPublicacao;
     }
 
-    @Override
-    public String toString() {
-        return "Livro{" +
-                "id=" + id +
-                ", titulo='" + titulo + '\'' +
-                ", autor='" + autor + '\'' +
-                ", anoPublicacao=" + anoPublicacao +
-                '}';
+    public String toString(){
+        return "ID: " + getId() + " Titulo: " + getTitulo() + " Autor: " + getAutor() + " Ano de publicação: " + getAnoPublicacao();
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Livro livro = (Livro) obj;
-        return id == livro.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Integer.hashCode(id);
-    }
+    
 }
