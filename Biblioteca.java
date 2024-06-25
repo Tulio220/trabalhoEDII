@@ -1,79 +1,89 @@
+
 import java.util.LinkedList;
+import javax.sound.sampled.SourceDataLine;
+import javax.swing.text.html.FormView;
+import java.util.Scanner;
+
 
 public class Biblioteca {
-    private LinkedList<Livro> livros;
-    private LinkedList<Usuario> usuarios;
+    private LinkedList<Livro> dados;
+    private LinkedList<Usuario> dadosUsuarios;
+    static Scanner input = new Scanner(System.in);
 
-    public Biblioteca() {
-        livros = new LinkedList<>();
-        usuarios = new LinkedList<>();
+    public Biblioteca(){
+        dados = new LinkedList<Livro>();
+        dadosUsuarios = new LinkedList<Usuario>();
     }
 
-    // Métodos para gerenciar livros
-    public void inserir(Livro livro) {
-        livros.add(livro);
-        livros.sort((Livro l1, Livro l2) -> l1.getId() - l2.getId());
+    public void inserir(Livro livro){
+        if (dados.contains(livro)){
+            System.out.println("Livro já inserido");
+        }else{
+            dados.add(livro);
+            System.out.println("Livro cadastrado com sucesso!");
+        }
     }
 
-    public Livro consultaID(int id) {
-        for (Livro livro : livros) {
-            if (livro.getId() == id) {
+    public void listarTodos(){
+        for (int i = 0; i < dados.size(); i++) {
+           System.out.println(dados.get(i));
+        }    
+    }
+
+    public Livro consultaID(int id){
+        for (Livro livro : dados) {
+            if (livro.getId() == id){
+                System.out.println("Livro encontrado");
                 System.out.println(livro);
                 return livro;
             }
         }
-        System.out.println("Livro não encontrado.");
+        System.out.println(id + " não está cadastrado");
         return null;
     }
 
-    public boolean remover(int id) {
-        Livro livro = consultaID(id);
-        if (livro != null) {
-            livros.remove(livro);
-            System.out.println("Livro removido com sucesso.");
-            return true;
-        }
-        System.out.println("Falha ao remover o livro.");
-        return false;
-    }
-
-    public void listarTodos() {
-        for (Livro livro : livros) {
-            System.out.println(livro);
+    public void remover(int id){
+        for (Livro livro : dados) {
+            if (livro.getId() == id){
+                System.out.println("Livro removido com sucesso");
+                dados.remove(livro);
+            }
         }
     }
 
-    // Métodos para gerenciar usuários
-    public void inserirUsuario(Usuario usuario) {
-        usuarios.add(usuario);
-        usuarios.sort((Usuario u1, Usuario u2) -> u1.getId() - u2.getId());
+
+    public void inserirUsuario(Usuario usuario){
+        if (dadosUsuarios.contains(usuario)){
+            System.out.println("Usuário já inserido");
+        }else{
+            dadosUsuarios.add(usuario);
+        }
     }
 
-    public Usuario consultaIDUsuario(int id) {
-        for (Usuario usuario : usuarios) {
-            if (usuario.getId() == id) {
+    public void listarTodosUsuarios(){
+        for (int i = 0; i < dadosUsuarios.size(); i++) {
+           System.out.println(dadosUsuarios.get(i));
+        }    
+    }
+
+    public Usuario consultaIDUsuario(int id_usuario){
+        for (Usuario usuario : dadosUsuarios) {
+            if (usuario.getId_Usuario() == id_usuario){
+                System.out.println("Usuário encontrado");
                 System.out.println(usuario);
                 return usuario;
             }
         }
-        System.out.println("Usuário não encontrado.");
+        System.out.println(id_usuario + " não está cadastrado");
         return null;
     }
 
-    public boolean removerUsuario(int id) {
-        Usuario usuario = consultaIDUsuario(id);
-        if (usuario != null) {
-            usuarios.remove(usuario);
-            System.out.println("Usuário removido com sucesso.");
-            return true;
-        }
-        System.out.println("Falha ao remover o usuário.");
-        return false;
-    }
-
-    public void listarTodosUsuarios() {
-        for (Usuario usuario : usuarios) {
-            System.out.println(usuario);
+    public void removerUsuario(int id_usuario){
+        for (Usuario usuario : dadosUsuarios) {
+            if (usuario.getId_Usuario() == id_usuario){
+                System.out.println("Usuário removido com sucesso");
+                dadosUsuarios.remove(usuario);
+            }
         }
     }
 }
